@@ -3,6 +3,14 @@ from typeclip import *
 import time
 from bs4 import BeautifulSoup
 import win32gui
+import re
+import xlrd
 
-print('博客'.encode('gbk') in win32gui.GetWindowText(int('0x00020B28', 16)))
+data = xlrd.open_workbook('whole.xlsx')
+table = data.sheets()[0]
+row = table.nrows
 
+s = table.row_values(4170)
+
+print(s)
+print(repr(s))
