@@ -4,13 +4,10 @@ import time
 from bs4 import BeautifulSoup
 import win32gui
 import re
-import xlrd
+import json
+from ast import literal_eval
 
-data = xlrd.open_workbook('whole.xlsx')
-table = data.sheets()[0]
-row = table.nrows
-
-s = table.row_values(4170)
-
-print(s)
-print(repr(s))
+with open('json.txt') as f:
+    s = f.read().replace('null', 'None')
+    l = json.loads(s[0])
+    print(l["topic"])
