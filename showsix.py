@@ -38,7 +38,7 @@ def onKeyboardEvent(event):
         time.sleep(0.01)
         win32gui.PostMessage(button, win32con.WM_KEYUP, win32con.VK_RETURN, None)
         time.sleep(0.2)
-        present = presentqestion(str(typeclip.get_text()))
+        present = presentqestion(typeclip.get_text())
         win32gui.SendMessage(link, win32con.WM_LBUTTONDOWN, 0, 0)
         time.sleep(0.01)
         win32gui.SendMessage(link, win32con.WM_LBUTTONUP, 0, 0)
@@ -57,7 +57,9 @@ def onKeyboardEvent(event):
 
 
 def parseanswer(s):
-    if s.startswith('[{') or s.startswith('b\'[{'):
+    if isinstance(s, bytes):
+        s = s.decode('gbk')
+    if s.startswith('[{'):
         ans = []
         s1 = s.replace('null', 'None')
         l = literal_eval(s1)
@@ -66,6 +68,8 @@ def parseanswer(s):
         return ans
 
 def presentqestion(html):
+    if isinstance(s, bytes):
+        html = html.decode('gbk')
     f = re.findall(r'\[.*\d.*\].*CHECKED', html)
     return len(f)
 

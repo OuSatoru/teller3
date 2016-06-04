@@ -9,10 +9,10 @@ from ast import literal_eval
 
 
 def parseanswer(s):
-    if s.startswith('[{') or s.startswith('b\'[{'):
+    if s.startswith('[{'):
         ans = []
         s1 = s.replace('null', 'None').lstrip('b')
-        l = literal_eval(literal_eval(s1))
+        l = literal_eval(s1)
         print(l)
         print(type(l))
         print(type(l[0]))
@@ -21,7 +21,7 @@ def parseanswer(s):
         return ans
 
 print(typeclip.get_text())
-ANS = parseanswer(str(typeclip.get_text()))
+ANS = parseanswer(typeclip.get_text().decode('gbk'))
 
 print(ANS[2][0], ANS[2][1], ANS[2][2])
 
