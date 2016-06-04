@@ -45,7 +45,7 @@ def onKeyboardEvent(event):
         time.sleep(0.01)
         win32gui.SendMessage(link, win32con.WM_SETTEXT, None,
                              'javascript:alert("题目: %s\n选项: %s\n答案: %s)' %
-                             (ANS[present-1][0], ANS[present-1][1], ANS[present-1][2]))
+                             (ANS[present][0], ANS[present][1], ANS[present][2]))
         time.sleep(0.01)
         win32gui.SendMessage(button, win32con.WM_LBUTTONDOWN, 0, 0)
         time.sleep(0.01)
@@ -66,6 +66,7 @@ def parseanswer(s):
         for each in l:
             ans.append([each['topic']['content'], each['topic']['topicOption'], each['topic']['answer']])
         return ans
+
 
 def presentqestion(html):
     if isinstance(html, bytes):
