@@ -1,5 +1,5 @@
 # coding=utf-8
-from typeclip import *
+import typeclip
 import time
 from bs4 import BeautifulSoup
 import win32gui
@@ -7,7 +7,7 @@ import re
 import json
 from ast import literal_eval
 
-with open('json.txt') as f:
-    s = f.read().replace('null', 'None')
-    l = json.loads(s[0])
-    print(l["topic"])
+s = typeclip.get_text()
+soup = BeautifulSoup(s, 'lxml')
+l = soup.body.find(CHECKED value = )
+print(l.get_text())

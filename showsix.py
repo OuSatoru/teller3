@@ -6,7 +6,7 @@ import time
 import pythoncom
 import pyHook
 import win32gui
-import json
+from bs4 import BeautifulSoup
 
 
 def onKeyboardEvent(event):
@@ -40,10 +40,17 @@ def onKeyboardEvent(event):
 
 
 def parsejson(s):
+    from ast import literal_eval
     if s.startswith('[{'):
-        jsonlist = list(s.strip())
-        for each in jsonlist:
-            s = json.loads(each)
+        ans = []
+        s1 = s.replace('null', 'None')
+        l = literal_eval(s1)
+        for each in l:
+            ans.append([each['topic']['content'], each['topic']['topicOption'], each['topic']['answer']])
+        return ans
+
+
+
 
 
 
