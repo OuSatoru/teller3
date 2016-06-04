@@ -6,7 +6,8 @@ import time
 import pythoncom
 import pyHook
 import win32gui
-from bs4 import BeautifulSoup
+from ast import literal_eval
+import re
 
 
 def onKeyboardEvent(event):
@@ -36,12 +37,27 @@ def onKeyboardEvent(event):
         win32gui.PostMessage(button, win32con.WM_KEYDOWN, win32con.VK_RETURN, None)
         time.sleep(0.01)
         win32gui.PostMessage(button, win32con.WM_KEYUP, win32con.VK_RETURN, None)
+        time.sleep(0.2)
+        present = presentqestion(str(typeclip.get_text()))
+        win32gui.SendMessage(link, win32con.WM_LBUTTONDOWN, 0, 0)
         time.sleep(0.01)
+        win32gui.SendMessage(link, win32con.WM_LBUTTONUP, 0, 0)
+        time.sleep(0.01)
+        win32gui.SendMessage(link, win32con.WM_SETTEXT, None,
+                             'javascript:alert("题目: %s\n选项: %s\n答案: %s)' %
+                             (ANS[present-1][0], ANS[present-1][1], ANS[present-1][2]))
+        time.sleep(0.01)
+        win32gui.SendMessage(button, win32con.WM_LBUTTONDOWN, 0, 0)
+        time.sleep(0.01)
+        win32gui.SendMessage(button, win32con.WM_LBUTTONUP, 0, 0)
+        time.sleep(0.01)
+        win32gui.PostMessage(button, win32con.WM_KEYDOWN, win32con.VK_RETURN, None)
+        time.sleep(0.01)
+        win32gui.PostMessage(button, win32con.WM_KEYUP, win32con.VK_RETURN, None)
 
 
-def parsejson(s):
-    from ast import literal_eval
-    if s.startswith('[{'):
+def parseanswer(s):
+    if s.startswith('[{') or s.startswith('b\'[{'):
         ans = []
         s1 = s.replace('null', 'None')
         l = literal_eval(s1)
@@ -49,13 +65,12 @@ def parsejson(s):
             ans.append([each['topic']['content'], each['topic']['topicOption'], each['topic']['answer']])
         return ans
 
+def presentqestion(html):
+    f = re.findall(r'\[.*\d.*\].*CHECKED', html)
+    return len(f)
 
 
-
-
-
-
-
+ANS = parseanswer(typeclip.get_text())
 hm = pyHook.HookManager()
 hm.KeyDown = onKeyboardEvent
 hm.HookKeyboard()
