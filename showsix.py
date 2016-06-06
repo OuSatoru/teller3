@@ -71,7 +71,7 @@ def parseanswer(s):
 def presentqestion(html):
     if isinstance(html, bytes):
         html = html.decode('gbk')
-    f = re.findall(r'\[.*\d.*\].*CHECKED', html)
+    f = re.findall(r'\[.*\d*.*\].*CHECKED', html)
     return len(f)
 
 
